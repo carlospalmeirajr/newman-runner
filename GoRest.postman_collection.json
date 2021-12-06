@@ -1,0 +1,663 @@
+{
+	"info": {
+		"_postman_id": "8babbf4d-0b43-4c75-b124-5934cd09b8e4",
+		"name": "GoRest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users-create/edit",
+			"item": [
+				{
+					"name": "users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"user-id\", pm.response.json().data.id);\r",
+									"pm.collectionVariables.set(\"name\", pm.response.json().data.name);\r",
+									"pm.collectionVariables.set(\"email\", pm.response.json().data.email);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer ACCESS-TOKEN"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{$randomFullName}}\",\r\n    \"gender\": \"male\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"status\": \"active\"\r\n}"
+						},
+						"url": {
+							"raw": "{{uri}}/users",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/users",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var name = pm.collectionVariables.get(\"name\")\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.json().data.name).to.include(name);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/users/{{user-id}}",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users",
+								"{{user-id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.json().data.status).to.include(\"active\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer ACCESS-TOKEN"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"active\"\r\n}"
+						},
+						"url": {
+							"raw": "{{uri}}/users/{{user-id}}",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users",
+								"{{user-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "posts",
+			"item": [
+				{
+					"name": "posts user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"post-id\", pm.response.json().data.id);\r",
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{$randomLoremSentence}}\",\r\n    \"body\": \"{{$randomLoremParagraph}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/users/{{user-id}}/posts",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users",
+								"{{user-id}}",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/posts",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "posts user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var userId = pm.collectionVariables.get(\"user-id\")\r",
+									"var responseUserId = pm.response.json().data[0][\"user_id\"]\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(responseUserId.toString()).to.eql(userId.toString())\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/users/{{user-id}}/posts",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users",
+								"{{user-id}}",
+								"posts"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comments",
+			"item": [
+				{
+					"name": "comments user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"email\": \"{{email}}\",\r\n    \"body\": \"{{$randomLoremSentence}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/posts/{{post-id}}/comments",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"posts",
+								"{{post-id}}",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/comments",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "comments user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var postId = pm.collectionVariables.get(\"post-id\")\r",
+									"var responsePostId = pm.response.json().data[0][\"post_id\"]\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(responsePostId.toString()).to.eql(postId.toString())\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/posts/{{post-id}}/comments",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"posts",
+								"{{post-id}}",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "toDo",
+			"item": [
+				{
+					"name": "toDo user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"title\": \"{{$randomLoremSentence}}\",\r\n            \"due_on\": \"{{currentDate}}\",\r\n            \"status\": \"pending\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{uri}}/users/{{user-id}}/todos",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users",
+								"{{user-id}}",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "toDo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/todos",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "toDo user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var userId = pm.collectionVariables.get(\"user-id\")\r",
+									"var responseUserId = pm.response.json().data[0][\"user_id\"]\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(responseUserId.toString()).to.eql(userId.toString())\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{uri}}/users/{{user-id}}/todos",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users",
+								"{{user-id}}",
+								"todos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users-delete",
+			"item": [
+				{
+					"name": "users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer ACCESS-TOKEN"
+							}
+						],
+						"url": {
+							"raw": "{{uri}}/users/{{user-id}}",
+							"host": [
+								"{{uri}}"
+							],
+							"path": [
+								"users",
+								"{{user-id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.collectionVariables.set(\"uri\", \"https://gorest.co.in/public/v1\");",
+					"pm.collectionVariables.set(\"token\", \"9cf67c332b35e2d870fc90d9af529f7e5d93f3b69da1df5eba279c9f596cd901\");",
+					"",
+					"const dateNow= new Date();",
+					"pm.environment.set('currentDate', dateNow.toISOString());",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "uri",
+			"value": "https://gorest.co.in/public/v1"
+		},
+		{
+			"key": "token",
+			"value": "ACCESS_TOKEN"
+		},
+		{
+			"key": "user-id",
+			"value": "62"
+		},
+		{
+			"key": "post-id",
+			"value": "1372"
+		},
+		{
+			"key": "name",
+			"value": "Bill Runolfsdottir"
+		},
+		{
+			"key": "email",
+			"value": "Josefina_Bergstrom76@gmail.com"
+		},
+		{
+			"key": "currentDate",
+			"value": ""
+		}
+	]
+}
