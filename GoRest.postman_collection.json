@@ -612,7 +612,7 @@
 				"type": "text/javascript",
 				"exec": [
 					"pm.collectionVariables.set(\"uri\", \"https://gorest.co.in/public/v1\");",
-					"pm.collectionVariables.set(\"token\", \"9cf67c332b35e2d870fc90d9af529f7e5d93f3b69da1df5eba279c9f596cd901\");",
+					"pm.collectionVariables.set(\"token\", \"YOUR_TOKEN\");",
 					"",
 					"const dateNow= new Date();",
 					"pm.environment.set('currentDate', dateNow.toISOString());",
